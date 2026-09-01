@@ -46,12 +46,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner (FS)
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: fs
           scan-ref: .
-          format: table
+          format: 'json'
+          exit-code: '0'
           ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL,HIGH
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          output: 'trivy-results.json'
