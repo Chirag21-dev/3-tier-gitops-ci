@@ -40,6 +40,35 @@ jobs:
         run: |
           gitleaks detect --source ./client --exit-code 1
 
+  build_Backend_docker_image_and_push:
+    runs-on: ubuntu-latest
+    needs: gitleaks-scan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Docker image (frontend)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Api
+          file: ./Api/Dockerfile
+          push: true
+          tags: |
+            chiragks1/backend:latest
+            chiragks1/backend:${{ env.IMAGE_TAG }}
+
   build_frontend_docker_image_and_push:
     runs-on: ubuntu-latest
     needs: gitleaks-scan
