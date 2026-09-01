@@ -7,8 +7,8 @@ RUN npm install
 COPY . .
 
 # Optional: pass REACT_APP_API as build arg
-ARG REACT_APP_API
-ENV REACT_APP_API=$REACT_APP_API
+#ARG REACT_APP_API
+#ENV REACT_APP_API=$REACT_APP_API
 
 RUN npm run build
 
