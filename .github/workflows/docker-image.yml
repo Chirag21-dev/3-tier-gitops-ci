@@ -1,4 +1,4 @@
-name: Gitops ci-cd
+name: Gitops ci-cd pipeline
 
 on:
   push:
